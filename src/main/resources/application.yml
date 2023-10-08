@@ -1,5 +1,6 @@
 micronaut:
   application:
     name: lambda-dynamo-example
-dynamodb-local.host: http://localhost
-dynamodb-local.port: 8000
+dynamodb:
+  host: http://localhost
+  port: 8000

@@ -8,7 +8,9 @@ import lombok.Data;
 public class FuncRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    String action;
-    String fileName;
+    /** 操作種別 */
+    private String action;
+    /** Game */
+    private GameTable gameTablie;
 
 }
