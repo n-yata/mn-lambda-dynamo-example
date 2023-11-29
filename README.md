@@ -1,3 +1,30 @@
+## DynamoDB localメモ
+※インストール参考  
+dockerでは入れず、zipファイルから落としてる  
+https://qiita.com/gzock/items/e0225fd71917c234acce  
+  
+■実行コマンド  
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb  
+  
+■GUIの起動  
+dynamodb-admin  
+
+■CLIでの使用例  
+
+```bash
+# テーブル一覧の出力
+aws dynamodb  --endpoint-url http://localhost:8000 `
+ list-tables
+
+# scan例
+aws dynamodb  --endpoint-url http://localhost:8000 `
+ scan `
+ --table-name GameTable `
+ --filter-expression "gameCategory = :category" `
+ --expression-attribute-values '{\":category\":{\"S\":\"RPG\"}}' `
+ --output yaml
+```
+
 ## Micronaut 3.5.0 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.5.0/guide/index.html)
