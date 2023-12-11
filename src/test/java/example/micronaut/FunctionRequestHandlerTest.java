@@ -56,6 +56,17 @@ public class FunctionRequestHandlerTest {
     }
 
     @Test
+    public void testQuery() throws JsonProcessingException {
+        rec.setAction("query");
+        game.setGameId("1002");
+        game.setGameTitle("Mother");
+        game.setPublishDate("2022-10-08");
+        request.setBody(objectMapper.writeValueAsString(rec));
+
+        handler.execute(request);
+    }
+
+    @Test
     public void testDelete() throws JsonProcessingException {
         rec.setAction("delete");
         game.setGameCategory("RPG");

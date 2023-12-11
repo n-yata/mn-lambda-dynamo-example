@@ -24,6 +24,8 @@ import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement;
 import software.amazon.awssdk.services.dynamodb.model.KeyType;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
+import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 
 @Singleton
@@ -93,6 +95,27 @@ public class GameTableRepository extends DynamoDbRepository {
         System.out.println(response.statusText());
     }
 
+    public void queryItem(GameTable game) {
+
+        StringBuilder condition = new StringBuilder();
+        condition.append("gameCategory = :gameCategory ");
+        condition.append("AND gameId = :gameId ");
+
+        StringBuilder filter = new StringBuilder();
+        filter.append("publishDate >= :publishDate");
+
+        Map<String, AttributeValue> expression = new HashMap<>();
+        expression.put(":gameCategory", buildValue(game.getGameCategory()));
+        expression.put(":gameId", buildValue(game.getGameId()));
+        expression.put(":publishDate", buildValue(game.getPublishDate()));
+
+        QueryRequest request = QueryRequest.builder().tableName(TABLE_NAME).keyConditionExpression(condition.toString())
+                .filterExpression(filter.toString()).expressionAttributeValues(expression).build();
+
+        QueryResponse response = this.client.query(request);
+        System.out.println(response);
+    }
+
     /**
      * CREATE TABLEリクエスト
      * 
@@ -111,6 +134,15 @@ public class GameTableRepository extends DynamoDbRepository {
         SdkHttpResponse response = createResponse.sdkHttpResponse();
         System.out.println(response.statusCode());
         System.out.println(response.statusText());
+    }
+
+    /**
+     * アトリビュート文字列を生成しする
+     * @param value
+     * @return
+     */
+    private AttributeValue buildValue(String value) {
+        return AttributeValue.builder().s(value).build();
     }
 
     /**

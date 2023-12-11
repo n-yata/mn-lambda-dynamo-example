@@ -66,6 +66,9 @@ public class FunctionRequestHandler
         case "delete":
             gameTableRepository.deleteItem(request.getGameTablie());
             break;
+        case "query":
+            gameTableRepository.queryItem(request.getGameTablie());
+            break;
         default:
             gameTableRepository.createTable();
         }
